@@ -1,4 +1,4 @@
-wfrom flask import Flask, Response
+from flask import Flask, Response
 from flask import request
 from prometheus_client import (Summary, Histogram, generate_latest,
                                CollectorRegistry)
@@ -30,7 +30,7 @@ class MetricCollector:
         PATH = 'path'
         HTTP_METHOD = 'method'
 
-        about_me = Summary(prefix + "_duration_seconds",
+        about_me = Histogram(prefix + "_duration_seconds",
                            service_name + " latency request distribution",
                            [PATH, HTTP_METHOD, STATUS_CODE])
 
@@ -39,7 +39,7 @@ class MetricCollector:
                              [STATUS_CODE, 'sql_state'],
                              buckets=(.1, .25, .5, .75, .90, 1.0, 2.5))
 
-        about_her = Summary(prefix + "_audit_duration_seconds",
+        about_her = Histogram(prefix + "_audit_duration_seconds",
                             "audit service latency request distribution",
                             [STATUS_CODE])
 
